@@ -8,8 +8,7 @@
 
 ## 🚀 Что это?
 
-NavalStrike — это не просто «ещё один морской бой». Это полноценный игровой сервис с продуктовым мышлением, построенный за 2 дня для nFactorial Incubator 2026.
-
+NavalStrike — это не просто «ещё один морской бой». Онлайн multiplayer Battleship с AI-анализом партий и realtime синхронизацией.
 **Для кого:** люди которые хотят сыграть в классику с другом онлайн, не скачивая ничего.  
 **Почему это ценно:** мгновенный мультиплеер по ссылке + AI-разбор после каждой партии = возвращаемость пользователей.
 
@@ -28,7 +27,7 @@ NavalStrike — это не просто «ещё один морской бой
 - Никакой регистрации для входа в чужую комнату не нужно — просто код
 
 ### 🤖 AI Coach
-- После каждой партии Claude анализирует твою стратегию
+-После каждой партии AI анализирует твою стратегию
 - Конкретные советы: «ты стрелял хаотично» или «хорошо добивал корабли»
 - Персональный разбор на основе реальной статистики партии
 
@@ -59,9 +58,22 @@ NavalStrike — это не просто «ещё один морской бой
 | Deploy | Vercel |
 
 ---
-
 ## 🧠 Архитектура
 
+- Frontend построен на Next.js App Router с клиентскими React-компонентами
+- Игровая логика (бот, проверка попаданий, победа/поражение) реализована на TypeScript
+- Multiplayer работает через Supabase Realtime WebSockets
+- Данные игроков, комнат и статистики хранятся в PostgreSQL (Supabase)
+- AI Coach вызывается через API route после завершения матча
+- Deploy и CI/CD выполняются через Vercel + GitHub integration
+
+### Поток игры
+
+```text
+Игрок → Next.js UI → API Routes → Supabase DB/Realtime
+                                ↓
+                          AI Coach API
+```
 
 ---
 
@@ -85,7 +97,7 @@ NavalStrike — это не просто «ещё один морской бой
 
 ---
 
-## 🏃 Запуск локально
+## Запуск локально
 
 ```bash
 git clone https://github.com/melsash/navalstrike.git
@@ -104,28 +116,14 @@ npm run dev
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-ANTHROPIC_API_KEY=your_anthropic_key
+HUGGINGFACE_API_KEY=your_key
 ```
 
 ---
 
-## 👩‍💻 Автор
+##  Автор
 
 Сделано с ❤️ для **nFactorial Incubator 2026**  
 GitHub: [@melsash](https://github.com/melsash)
 
 ---
-
-## 📊 Уровень по критериям nFactorial
-
-| Критерий | Статус |
-|----------|--------|
-| Базовые правила игры | ✅ |
-| Игра против бота | ✅ Hunt & Target AI |
-| Авторизация | ✅ Supabase Auth |
-| История и статистика | ✅ |
-| Мультиплеер | ✅ Realtime WebSockets |
-| AI Coach | ✅ Claude API |
-| Глобальный лидерборд | ✅ |
-| Монетизация (UI) | ✅ PRO статус |
-| Деплой | ✅ Vercel |
